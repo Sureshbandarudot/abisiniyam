@@ -86,9 +86,9 @@ class _userDashboardState extends State<newuserDashboard> {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
       var picstrr = data1['data'];
-      for (var record in picstrr) {
-        idnum = record['id'];
-      }
+      // for (var record in picstrr) {
+      //   idnum = record['id'];
+      // }
       return json.decode(response.body);
     } else {
       // If that call was not successful, throw an error.
@@ -325,8 +325,10 @@ class _userDashboardState extends State<newuserDashboard> {
                             // child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? 'Not booked yet'
                             //     : snapshot.data?["data"][index]?['bookings']?[0]['start_date'].toString() ?? 'empty'),
 
+                            // child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                            //    : snapshot.data?["data"][index]?['bookings'][index]?['pivot']['start_date'].toString() ?? 'empty'),
                             child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                               : snapshot.data?["data"][index]?['bookings'][index]?['pivot']['start_date'].toString() ?? 'empty'),
+                                : snapshot.data?["data"][index]?['bookings']?[0]['pivot']['start_date'].toString() ?? 'empty'),
 
 
                             // child: Text((snapshot.data["data"][index]['bookings'][0]['start_date'].toString() ?? 'empty'),style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
@@ -350,8 +352,11 @@ class _userDashboardState extends State<newuserDashboard> {
                             //child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? 'Not booked yet'
                               //  : snapshot.data?["data"][index]?['bookings']?[0]['end_date'].toString() ?? 'empty'),
 
+                           // child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                             //   : snapshot.data?["data"][index]?['bookings'][index]?['pivot']['end_date'].toString() ?? 'empty'),
+
                             child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                : snapshot.data?["data"][index]?['bookings'][index]?['pivot']['end_date'].toString() ?? 'empty'),
+                                : snapshot.data?["data"][index]?['bookings']?[0]['pivot']['end_date'].toString() ?? 'empty'),
 
                             //child: Text('check-out date:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                           )
@@ -373,8 +378,11 @@ class _userDashboardState extends State<newuserDashboard> {
 
                             // child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? 'Not booked yet!'
                             //     : snapshot.data?["data"][index]?['bookings']?[0]['status'].toString() ?? 'empty'),
-                              child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                              : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty'),
+                            //   child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                            //   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty'),
+
+                            child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                : snapshot.data?["data"][index]?['bookings']?[0]['pivot']['status'].toString() ?? 'empty'),
 
 
                             //child: Text('check-out date:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
@@ -470,7 +478,10 @@ class _userDashboardState extends State<newuserDashboard> {
                   onTap: () async{
 
                     if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
+                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
 
 
                                   SharedPreferences prefs = await SharedPreferences.getInstance();

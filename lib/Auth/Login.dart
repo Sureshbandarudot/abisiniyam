@@ -9,6 +9,7 @@ import 'package:tourstravels/Auth/forgotpwdemailVerify.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
 
 
@@ -79,7 +80,7 @@ class _LoginState extends State<Login> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => tabbar()
+              builder: (context) => newuserDashboard()
           ),
         );
 

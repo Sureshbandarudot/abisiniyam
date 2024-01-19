@@ -244,7 +244,7 @@ class _userDashboardState extends State<PivotDashboard> {
                                             separatorBuilder: (BuildContext context, int index) => const Divider(),
                                             itemBuilder: (BuildContext context, int index) {
                                               return Container(
-                                                height: 110,
+                                                height: 140,
                                                 width: 100,
                                                 alignment: Alignment.center,
                                                 color: Colors.white,
@@ -307,6 +307,33 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         )
                                                       ],
                                                     ),
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Container(
+                                                          height: 35,
+                                                          width: 140,
+                                                          color: Colors.white,
+                                                          child: Text('Action:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                        ),
+                                                        Container(
+                                                          height: 35,
+                                                          width: 100,
+                                                          color: Colors.white,
+                                                          child: Text('Approve',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.blue),),
+                                                        ),
+
+                                                        Container(
+                                                          height: 35,
+                                                          width: 100,
+                                                          color: Colors.white,
+                                                          child: Text('Decline',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.redAccent),),
+                                                        )
+                                                      ],
+                                                    ),
+
                                                   ],
                                                 ),
                                               );
