@@ -10,6 +10,7 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
+import 'package:tourstravels/tabbar.dart';
 //import 'NewUserbooking.dart';
 class newuserDashboard extends StatefulWidget {
   const newuserDashboard({super.key});
@@ -34,6 +35,9 @@ class _userDashboardState extends State<newuserDashboard> {
   String RetrivedEmail = '';
   String RetrivedBearertoekn = '';
   String Bookingsts = 'Not booked yet!';
+  String Statusstr = '';
+  String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+ String stsId = '';
   var controller = ScrollController();
   late Future<List<DashboardApart>> BookingDashboardUsers ;
   int count = 15;
@@ -69,7 +73,8 @@ class _userDashboardState extends State<newuserDashboard> {
       throw Exception('Error');
     }
   }
-  Future<dynamic> getData() async {
+
+    Future<dynamic> getData() async {
     //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
     String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/withbooking';
     var response = await http.get(
@@ -95,6 +100,9 @@ class _userDashboardState extends State<newuserDashboard> {
       throw Exception('Failed to load post');
     }
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +158,7 @@ class _userDashboardState extends State<newuserDashboard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Login()),
+                        builder: (context) => tabbar()),
                   );
                 },
 
@@ -219,7 +227,7 @@ class _userDashboardState extends State<newuserDashboard> {
 
 //    itemBuilder: (context,index){
               return Container(
-                height: 280,
+                height: 290,
                 width: 100,
                 alignment: Alignment.center,
                 color: Colors.white,
@@ -245,6 +253,16 @@ class _userDashboardState extends State<newuserDashboard> {
                                 height: 30,
                                 width: 200,
                                 color: Colors.black12,
+                                //child:Text(snapshot.data['data'][index]['name'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+
+                                child:Text(snapshot.data?['data'].isEmpty ? 'Empty name'
+                                    : snapshot.data?["data"][index]?['name']?.toString() ?? 'empty'),
+
+
+                                // child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                //     : snapshot.data?["data"][index]?['bookings']?[0]['pivot']['start_date'].toString() ?? 'empty'),
+
+
                                 //child:Text((snapshot.data["data"][index]['bookings'][0]['date'])),
 
                                 // child:Text(
@@ -302,11 +320,13 @@ class _userDashboardState extends State<newuserDashboard> {
                       ),
                     ),
                 Container(
-                  height: 140,
+                  height: 150,
                   width: 340,
 
                   color: Colors.white10,
                   child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
@@ -383,32 +403,321 @@ class _userDashboardState extends State<newuserDashboard> {
 
                             child:Text(snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                 : snapshot.data?["data"][index]?['bookings']?[0]['pivot']['status'].toString() ?? 'empty'),
-
-
                             //child: Text('check-out date:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                           )
                         ],
                       ),
+
                       Row(
                         children: [
-                          Container(
-                            height: 35,
-                            width: 140,
-                            color: Colors.white,
-                            child: Text('Action:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                          InkWell(
+                           // onTap: doSomething,
+                            onTap: () { print("Container was tapped2...."); },
+                            child: SizedBox(
+                              height: 35,
+                              width: 100,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white)),
+                                child: Text(
+                                  'Action',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black),
+                                ),
+                              ),
+                            ),
                           ),
-                          Container(
-                            height: 35,
-                            width: 100,
-                            color: Colors.white,
-                            child: Text('Approve',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.blue),),
+                          InkWell(
+                            // onTap: doSomething,
+                            onTap: () async {
+
+                              if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
+                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                               // stsId = snapshot.data['data'][index]['id'].toString();
+                                stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
+                                String ApproveStr = '/Approved';
+                                String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                var response = await http.get(
+                                    Uri.parse(
+                                        Apprvoedurl),
+                                    headers: {
+                                      // 'Authorization':
+                                      // 'Bearer <--your-token-here-->',
+                                      "Authorization": "Bearer $RetrivedBearertoekn",
+                                    },
+                                  );
+                                  if (response.statusCode == 200) {
+                                    final data1 = jsonDecode(response.body);
+                                    var getpicsData = [];
+                                    var picstrr = data1['data'];
+                                   print('successfully Approved....');
+                                    final snackBar = SnackBar(
+                                      content: Text('Successfully Approved'),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                    return json.decode(response.body);
+                                  } else {
+                                    // If that call was not successful, throw an error.
+                                    throw Exception('Failed to load post');
+                                  }
+                              }  else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
+
+                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsId = snapshot.data['data'][index]['id'].toString();
+                                stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
+                                String ApproveStr = '/Checked In';
+                                String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                var response = await http.get(
+                                  Uri.parse(
+                                      Apprvoedurl),
+                                  headers: {
+                                    "Authorization": "Bearer $RetrivedBearertoekn",
+                                  },
+                                );
+                                if (response.statusCode == 200) {
+                                  final data1 = jsonDecode(response.body);
+                                  var getpicsData = [];
+                                  var picstrr = data1['data'];
+                                  print('successfully checked In....');
+                                  final snackBar = SnackBar(
+                                    content: Text('Successfully Checked In'),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  return json.decode(response.body);
+                                } else {
+                                  // If that call was not successful, throw an error.
+                                  throw Exception('Failed to load post');
+                                }
+
+                              } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'){
+                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsId = snapshot.data['data'][index]['id'].toString();
+                                stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
+                                String ApproveStr = '/Checked Out';
+                                String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                var response = await http.get(
+                                  Uri.parse(
+                                      Apprvoedurl),
+                                  headers: {
+                                    // 'Authorization':
+                                    // 'Bearer <--your-token-here-->',
+                                    "Authorization": "Bearer $RetrivedBearertoekn",
+                                  },
+                                );
+                                if (response.statusCode == 200) {
+                                  final data1 = jsonDecode(response.body);
+                                  var getpicsData = [];
+                                  var picstrr = data1['data'];
+                                  print('successfully checked out....');
+                                  final snackBar = SnackBar(
+                                    content: Text('Successfully Checked Out'),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  return json.decode(response.body);
+                                } else {
+                                  // If that call was not successful, throw an error.
+                                  throw Exception('Failed to load post');
+                                }
+
+                              } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+
+
+                                print('checked out btn clicked.....');
+                              }
+
+
+                              print("Approve Container was tapped....."); },
+                            child: SizedBox(
+                              height: 35,
+                              width: 100,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.white)),
+
+                                child: Column(children:[  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'))
+                  Text(
+                    'Approve',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
+                  ),
+                                  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                      : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'))
+                                    Text(
+                                      'Check In',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
+                                    ),
+                                  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                      : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
+                                    Text(
+                                      'Check Out',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
+                                    ),
+
+
+                                      // if (e["index"] == 3)
+                                      //   Text(e["text"].toString(),
+                                      //       textAlign: TextAlign.center,
+                                      //       style: TextStyle(color: Colors.amber)),
+                                      // if (e["index"] == 4)
+                                      //   Text(e["text"].toString(),
+                                      //       textAlign: TextAlign.center,
+                                      //       style: TextStyle(color: Colors.orange)),
+                                      // if (e["index"] == 5)
+                                      //   Text(e["text"].toString(),
+                                      //       textAlign: TextAlign.center,
+                                      //       style: TextStyle(color: Colors.red)),
+                                    ])
+
+                                //),
+
+                                // child: Text(
+                                //   'Approve',
+                                //   textAlign: TextAlign.right,
+                                //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
+                                // ),
+                              ),
+                            ),
                           ),
 
-                          Container(
-                            height: 35,
-                            width: 100,
-                            color: Colors.white,
-                            child: Text('Decline',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.redAccent),),
+                          InkWell(
+                            // onTap: doSomething,
+                            onTap: () async {
+                              print('clicked on declined btn...');
+
+                              if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
+
+                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsId = snapshot.data['data'][index]['id'].toString();
+                                stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
+                                String ApproveStr = '/Declined';
+                                String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                var response = await http.get(
+                                  Uri.parse(
+                                      Apprvoedurl),
+                                  headers: {
+                                    // 'Authorization':
+                                    // 'Bearer <--your-token-here-->',
+                                    "Authorization": "Bearer $RetrivedBearertoekn",
+                                  },
+                                );
+                                if (response.statusCode == 200) {
+                                  final data1 = jsonDecode(response.body);
+                                  var getpicsData = [];
+                                  var picstrr = data1['data'];
+                                  print('successfully Declined....');
+                                  final snackBar = SnackBar(
+                                    content: Text('Successfully Declined'),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  return json.decode(response.body);
+                                } else {
+                                  // If that call was not successful, throw an error.
+                                  throw Exception('Failed to load post');
+                                }
+                              } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                  : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
+
+
+                                print('checked in btn clicked.....');
+                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsId = snapshot.data['data'][index]['id'].toString();
+                                stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
+                                String ApproveStr = '/Unbook';
+                                String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                var response = await http.get(
+                                  Uri.parse(
+                                      Apprvoedurl),
+                                  headers: {
+                                    // 'Authorization':
+                                    // 'Bearer <--your-token-here-->',
+                                    "Authorization": "Bearer $RetrivedBearertoekn",
+                                  },
+                                );
+                                if (response.statusCode == 200) {
+                                  final data1 = jsonDecode(response.body);
+                                  var getpicsData = [];
+                                  var picstrr = data1['data'];
+                                  print('successfully Declined....');
+                                  final snackBar = SnackBar(
+                                    content: Text('Successfully Declined'),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                  return json.decode(response.body);
+                                } else {
+                                  // If that call was not successful, throw an error.
+                                  throw Exception('Failed to load post');
+                                }
+                              }
+
+                              print("Approve Container was tapped....."); },
+                            child: SizedBox(
+                              height: 35,
+                              width: 100,
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white)),
+
+                                  child: Column(children:[  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                      : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'))
+                                    Text(
+                                      'Decline',
+                                      textAlign: TextAlign.right,
+                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
+                                    ),
+                                    if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                        : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'))
+                                      Text(
+                                        'Unbook',
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
+                                      ),
+
+
+                                    // if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                    //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
+                                    //   Text(
+                                    //     'Check Out',
+                                    //     textAlign: TextAlign.right,
+                                    //     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
+                                    //   ),
+
+
+                                    // if (e["index"] == 3)
+                                    //   Text(e["text"].toString(),
+                                    //       textAlign: TextAlign.center,
+                                    //       style: TextStyle(color: Colors.amber)),
+                                    // if (e["index"] == 4)
+                                    //   Text(e["text"].toString(),
+                                    //       textAlign: TextAlign.center,
+                                    //       style: TextStyle(color: Colors.orange)),
+                                    // if (e["index"] == 5)
+                                    //   Text(e["text"].toString(),
+                                    //       textAlign: TextAlign.center,
+                                    //       style: TextStyle(color: Colors.red)),
+                                  ])
+
+                                //),
+
+                                // child: Text(
+                                //   'Approve',
+                                //   textAlign: TextAlign.right,
+                                //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
+                                // ),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -420,11 +729,16 @@ class _userDashboardState extends State<newuserDashboard> {
                   width: 340,
                   color: Colors.green,
                   //child: Text('View More:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-
-
-                  child: Text(
-                    "View More",
-                    textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.white),
+                 child: TextButton(
+// if you are not set the alignment, by default it will align center
+                    child: const Align(
+                      alignment: Alignment.center,
+                      child: Text('View More',
+                          style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+                          ),
+                          textAlign: TextAlign.center),
+                    ),
+                    onPressed: () {},
                   ),
                 ),
                 // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0

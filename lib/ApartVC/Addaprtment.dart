@@ -182,19 +182,6 @@ class HomeState extends State<AddApartment> {
         print(responseData);
         var data = jsonDecode(response.body.toString());
         print(data['message']);
-
-    //     if (data['message'] == 'Thank you for booking request')
-    //     {
-    //       Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-    //         builder: (_) => newuserDashboard(),
-    // ),);
-    //     } else {
-    //       final snackBar = SnackBar(
-    //         content: Text(data['message']),
-    //       );
-    //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //     }
-
         if (data['message'] == 'Thank you for booking request')
         {
           print('not calling....');
@@ -217,24 +204,15 @@ class HomeState extends State<AddApartment> {
           prefs.setString('tokenkey', RetrivedBearertoekn);
 
         }
-
-
-
-
-        // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-        //   builder: (_) => newuserDashboard(),
-        // ),);
-        //
-        // final snackBar = SnackBar(
-        //   content: Text(data['message']),
-        // );
-        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      //}
         setState(() {
           //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
         });
       } else {
-        // If the server returns an error response, throw an exception
+
+        final snackBar = SnackBar(
+          content: Text('You cant book your own apartment'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to post data');
       }
     } catch (e) {
