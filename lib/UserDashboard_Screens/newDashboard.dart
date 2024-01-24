@@ -115,19 +115,42 @@ class _userDashboardState extends State<newuserDashboard> {
           backgroundColor: Colors.green,
 
         ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   leading: Padding(
+      //     // padding: const EdgeInsets.all(0.0),
+      //     padding: EdgeInsets.only(left: 15.0, top: 0.0),
+      //     child: Image.asset(
+      //       "images/logo.jpg",
+      //     ),),
+      //   title: Text('ABISINIYA',textAlign: TextAlign.center,
+      //       style: TextStyle(color:Colors.red,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      //   iconTheme: IconThemeData(color: Colors.red),),
         drawer: Drawer(
           child: ListView(
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.green,
+              // const DrawerHeader(
+              //   decoration: BoxDecoration(
+              //     color: Colors.green,
+              //   ),
+              //   child: Text('Drawer Header'),
+              // ),
+              DrawerHeader(
+
+                //child: Text('Categories', style: TextStyle(color: Colors.white)),
+                decoration: BoxDecoration(color: Color(0xffffff
+                ),),
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+
+                child: Image.asset(
+                  'images/logo2.png',
+                  width: 50,height: 50,
                 ),
-                child: Text('Drawer Header'),
               ),
               ListTile(
-                leading: Icon(
+                trailing: Icon(
                   Icons.home,
                 ),
                 title: const Text('Page 1'),

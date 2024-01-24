@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.login,
                 color: Colors.green,
               ),
-              title: const Text('Regester/Login',
+              title: const Text('Register/Login',
               style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
               onTap: () {
@@ -95,71 +95,71 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-            // ListTile(
-            //   trailing: Icon(
-            //     Icons.flight,
-            //     color: Colors.green,
-            //   ),
-            //   title: const Text('Flights',
-            //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-            //
-            //
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            // ListTile(
-            //   trailing: Icon(
-            //     Icons.apartment,
-            //     color: Colors.green,
-            //   ),
-            //
-            //   title: const Text('Apartments',
-            //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-            //
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            // ListTile(
-            //   trailing: Icon(
-            //     Icons.car_rental,
-            //     color: Colors.green,
-            //   ),
-            //
-            //
-            //   title: const Text('Vehicles',
-            //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-            //
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            // ListTile(
-            //   trailing: Icon(
-            //     Icons.airport_shuttle,
-            //     color: Colors.green,
-            //   ),
-            //   title: const Text('Airport Shuttles',
-            //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-            //   //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
-            // ListTile(
-            //   trailing: Icon(
-            //     Icons.car_repair_sharp,
-            //     color: Colors.green,
-            //   ),
-            //   //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-            //   title: const Text('List Property and car',
-            //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-            //
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //   },
-            // ),
+            ListTile(
+              trailing: Icon(
+                Icons.flight,
+                color: Colors.green,
+              ),
+              title: const Text('Flights',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.apartment,
+                color: Colors.green,
+              ),
+
+              title: const Text('Apartments',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.car_rental,
+                color: Colors.green,
+              ),
+
+
+              title: const Text('Vehicles',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.airport_shuttle,
+                color: Colors.green,
+              ),
+              title: const Text('Airport Shuttles',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+              //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.car_repair_sharp,
+                color: Colors.green,
+              ),
+              //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+              title: const Text('List Property and car',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
             ListTile(
               trailing: Icon(
                 Icons.contact_page,
