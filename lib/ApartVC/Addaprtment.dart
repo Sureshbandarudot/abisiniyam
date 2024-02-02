@@ -209,10 +209,10 @@ class HomeState extends State<AddApartment> {
         });
       } else {
 
-        final snackBar = SnackBar(
-          content: Text('You cant book your own apartment'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // final snackBar = SnackBar(
+        //   content: Text('You cant book your own apartment'),
+        // );
+        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         throw Exception('Failed to post data');
       }
     } catch (e) {

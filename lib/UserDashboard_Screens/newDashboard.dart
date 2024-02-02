@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
+import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 //import 'NewUserbooking.dart';
 class newuserDashboard extends StatefulWidget {
   const newuserDashboard({super.key});
@@ -47,6 +48,9 @@ class _userDashboardState extends State<newuserDashboard> {
       RetrivedEmail = prefs.getString('emailkey') ?? "";
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+      print('booking token...');
+      print(RetrivedBearertoekn);
+
 
     });
   }
@@ -88,6 +92,8 @@ class _userDashboardState extends State<newuserDashboard> {
       },
     );
     if (response.statusCode == 200) {
+      print('success new user....');
+
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
       var picstrr = data1['data'];
@@ -102,96 +108,331 @@ class _userDashboardState extends State<newuserDashboard> {
   }
 
 
+  //Alert Dialog box
+  DeclinedshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update Decline!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+//Status Alert
+  UpdatedstatusshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update the status!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Abisiniya',
-          ),
-          // backgroundColor: const Color(0xff764abc),
-          backgroundColor: Colors.green,
+        // appBar: AppBar(
+        //   centerTitle: true,
+        //   title: const Text(
+        //     'Abisiniya',
+        //   ),
+        //   // backgroundColor: const Color(0xff764abc),
+        //   backgroundColor: Colors.green,
+        //
+        // ),
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          // padding: const EdgeInsets.all(0.0),
+          padding: EdgeInsets.only(left: 15.0, top: 0.0),
+          child: Image.asset(
+            "images/logo.jpg",
+          ),),
+        title: Text('ABISINIYA',textAlign: TextAlign.center,
+            style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+        iconTheme: IconThemeData(color: Colors.green),),
+      endDrawer: Drawer(
+        child: ListView(
 
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+
+              //child: Text('Categories', style: TextStyle(color: Colors.white)),
+              decoration: BoxDecoration(color: Color(0xffffff
+              ),),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+
+              child: Image.asset(
+                'images/logo2.png',
+                width: 50,height: 50,
+              ),
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.login,
+                color: Colors.green,
+              ),
+              title: const Text('My Bookings',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Login()),
+                );
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.money,
+                color: Colors.green,
+              ),
+              title: const Text('Booking Commision',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.flight,
+                color: Colors.green,
+              ),
+
+              title: const Text('My Flight Requests',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.apartment,
+                color: Colors.green,
+              ),
+
+
+              title: const Text('My Apartments',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: ()async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('logoutkey', ('LogoutDashboard'));
+                prefs.setString('Property_type', ('Apartment'));
+                prefs.setString('tokenkey',RetrivedBearertoekn );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyApartmentScreen()),
+                );
+
+
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.bus_alert,
+                color: Colors.green,
+              ),
+              title: const Text('My Vehicles',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+              //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.bus_alert_sharp,
+                color: Colors.green,
+              ),
+              //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+              title: const Text('My Buses',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.airport_shuttle,
+                color: Colors.green,
+              ),
+              //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+              title: const Text('My Shuttle',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(
+                Icons.logout,
+                color: Colors.green,
+              ),
+              //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
+              title: const Text('Logout',
+                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+
+              //onTap: () async {
+              onTap: ()async{
+
+
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('logoutkey', ('LogoutDashboard'));
+                prefs.setString('Property_type', ('Apartment'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => tabbar()),
+                );
+
+
+              },
+
+              // onTap: () {
+              //   Navigator.pop(context);
+              // },
+            ),
+          ],
         ),
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   leading: Padding(
-      //     // padding: const EdgeInsets.all(0.0),
-      //     padding: EdgeInsets.only(left: 15.0, top: 0.0),
-      //     child: Image.asset(
-      //       "images/logo.jpg",
-      //     ),),
-      //   title: Text('ABISINIYA',textAlign: TextAlign.center,
-      //       style: TextStyle(color:Colors.red,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-      //   iconTheme: IconThemeData(color: Colors.red),),
-        drawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              // const DrawerHeader(
-              //   decoration: BoxDecoration(
-              //     color: Colors.green,
-              //   ),
-              //   child: Text('Drawer Header'),
-              // ),
-              DrawerHeader(
-
-                //child: Text('Categories', style: TextStyle(color: Colors.white)),
-                decoration: BoxDecoration(color: Color(0xffffff
-                ),),
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-
-                child: Image.asset(
-                  'images/logo2.png',
-                  width: 50,height: 50,
-                ),
-              ),
-              ListTile(
-                trailing: Icon(
-                  Icons.home,
-                ),
-                title: const Text('Page 1'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.train,
-                ),
-                title: const Text('Page 2'),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                trailing: Icon(
-                  Icons.logout,
-                  color: Colors.green,
-                ),
-                //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
-                title: const Text('Logout',
-                    style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
-                //onTap: () async {
-                onTap: ()async{
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => tabbar()),
-                  );
-                },
-
-                // onTap: () {
-                //   Navigator.pop(context);
-                // },
-              ),
-            ],
-          ),
-        ),
+      ),
+      //   drawer: Drawer(
+      //     child: ListView(
+      //       // Important: Remove any padding from the ListView.
+      //       padding: EdgeInsets.zero,
+      //       children: [
+      //         // const DrawerHeader(
+      //         //   decoration: BoxDecoration(
+      //         //     color: Colors.green,
+      //         //   ),
+      //         //   child: Text('Drawer Header'),
+      //         // ),
+      //         DrawerHeader(
+      //
+      //           //child: Text('Categories', style: TextStyle(color: Colors.white)),
+      //           decoration: BoxDecoration(color: Color(0xffffff
+      //           ),),
+      //           padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      //
+      //           child: Image.asset(
+      //             'images/logo2.png',
+      //             width: 50,height: 50,
+      //           ),
+      //         ),
+      //         ListTile(
+      //           trailing: Icon(
+      //             Icons.home,
+      //           ),
+      //           title: const Text('Page 1'),
+      //           onTap: () {
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //         ListTile(
+      //           leading: Icon(
+      //             Icons.train,
+      //           ),
+      //           title: const Text('Page 2'),
+      //           onTap: () {
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //         ListTile(
+      //           trailing: Icon(
+      //             Icons.logout,
+      //             color: Colors.green,
+      //           ),
+      //           //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
+      //           title: const Text('Logout',
+      //               style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      //
+      //           //onTap: () async {
+      //           onTap: ()async{
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                   builder: (context) => tabbar()),
+      //             );
+      //           },
+      //
+      //           // onTap: () {
+      //           //   Navigator.pop(context);
+      //           // },
+      //         ),
+      //       ],
+      //     ),
+      //   ),
       //body: FutureBuilder(
     body: FutureBuilder<dynamic>(
 
@@ -453,6 +694,8 @@ class _userDashboardState extends State<newuserDashboard> {
                           InkWell(
                             // onTap: doSomething,
                             onTap: () async {
+                            //  UpdatedstatusshowAlertDialog(context);
+
 
                               if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
@@ -585,20 +828,6 @@ class _userDashboardState extends State<newuserDashboard> {
                                       textAlign: TextAlign.right,
                                       style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
                                     ),
-
-
-                                      // if (e["index"] == 3)
-                                      //   Text(e["text"].toString(),
-                                      //       textAlign: TextAlign.center,
-                                      //       style: TextStyle(color: Colors.amber)),
-                                      // if (e["index"] == 4)
-                                      //   Text(e["text"].toString(),
-                                      //       textAlign: TextAlign.center,
-                                      //       style: TextStyle(color: Colors.orange)),
-                                      // if (e["index"] == 5)
-                                      //   Text(e["text"].toString(),
-                                      //       textAlign: TextAlign.center,
-                                      //       style: TextStyle(color: Colors.red)),
                                     ])
 
                                 //),
@@ -616,6 +845,8 @@ class _userDashboardState extends State<newuserDashboard> {
                             // onTap: doSomething,
                             onTap: () async {
                               print('clicked on declined btn...');
+                              DeclinedshowAlertDialog(context);
+
 
                               if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
@@ -639,11 +870,23 @@ class _userDashboardState extends State<newuserDashboard> {
                                   final data1 = jsonDecode(response.body);
                                   var getpicsData = [];
                                   var picstrr = data1['data'];
-                                  print('successfully Declined....');
-                                  final snackBar = SnackBar(
-                                    content: Text('Successfully Declined'),
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => new AlertDialog(
+                                      title: new Text('Message'),
+                                      content: Text(
+                                          'Successfully Declined'),
+                                      actions: <Widget>[
+                                        new TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context, rootNavigator: true)
+                                                .pop(); // dismisses only the dialog and returns nothing
+                                          },
+                                          child: new Text('OK'),
+                                        ),
+                                      ],
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   return json.decode(response.body);
                                 } else {
                                   // If that call was not successful, throw an error.
@@ -651,14 +894,11 @@ class _userDashboardState extends State<newuserDashboard> {
                                 }
                               } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
-
-
-                                print('checked in btn clicked.....');
                                 stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
                                 // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                String ApproveStr = '/Unbook';
+                                String ApproveStr = '/Declined';
                                 String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
                                 var response = await http.get(
                                   Uri.parse(
@@ -674,10 +914,23 @@ class _userDashboardState extends State<newuserDashboard> {
                                   var getpicsData = [];
                                   var picstrr = data1['data'];
                                   print('successfully Declined....');
-                                  final snackBar = SnackBar(
-                                    content: Text('Successfully Declined'),
+                                  await showDialog(
+                                    context: context,
+                                    builder: (context) => new AlertDialog(
+                                      title: new Text('Message'),
+                                      content: Text(
+                                          'Successfully Declined'),
+                                      actions: <Widget>[
+                                        new TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context, rootNavigator: true)
+                                                .pop(); // dismisses only the dialog and returns nothing
+                                          },
+                                          child: new Text('OK'),
+                                        ),
+                                      ],
+                                    ),
                                   );
-                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                   return json.decode(response.body);
                                 } else {
                                   // If that call was not successful, throw an error.
@@ -708,37 +961,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                         style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
                                       ),
 
-
-                                    // if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                    //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
-                                    //   Text(
-                                    //     'Check Out',
-                                    //     textAlign: TextAlign.right,
-                                    //     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
-                                    //   ),
-
-
-                                    // if (e["index"] == 3)
-                                    //   Text(e["text"].toString(),
-                                    //       textAlign: TextAlign.center,
-                                    //       style: TextStyle(color: Colors.amber)),
-                                    // if (e["index"] == 4)
-                                    //   Text(e["text"].toString(),
-                                    //       textAlign: TextAlign.center,
-                                    //       style: TextStyle(color: Colors.orange)),
-                                    // if (e["index"] == 5)
-                                    //   Text(e["text"].toString(),
-                                    //       textAlign: TextAlign.center,
-                                    //       style: TextStyle(color: Colors.red)),
                                   ])
 
-                                //),
 
-                                // child: Text(
-                                //   'Approve',
-                                //   textAlign: TextAlign.right,
-                                //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                // ),
                               ),
                             ),
                           )
@@ -751,18 +976,25 @@ class _userDashboardState extends State<newuserDashboard> {
                   height: 50,
                   width: 340,
                   color: Colors.green,
-                  //child: Text('View More:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                 child: TextButton(
-// if you are not set the alignment, by default it will align center
-                    child: const Align(
+                  child: const Align(
                       alignment: Alignment.center,
                       child: Text('View More',
                           style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
                           ),
                           textAlign: TextAlign.center),
                     ),
-                    onPressed: () {},
-                  ),
+
+//                  child: TextButton(
+// // if you are not set the alignment, by default it will align center
+//                     child: const Align(
+//                       alignment: Alignment.center,
+//                       child: Text('View More',
+//                           style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+//                           ),
+//                           textAlign: TextAlign.center),
+//                     ),
+//                     onPressed: () {},
+//                   ),
                 ),
                 // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
                 // ]['imageUrl']),

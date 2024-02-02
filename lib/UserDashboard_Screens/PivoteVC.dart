@@ -51,6 +51,8 @@ class _userDashboardState extends State<PivotDashboard> {
   String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
   String stsId = '';
   int booking_id = 0;
+  String ApprovedMessagestr = '';
+  String DeclinedMessagestr = '';
   var controller = ScrollController();
   late Future<List<DashboardApart>> BookingDashboardUsers ;
   int count = 15;
@@ -68,6 +70,8 @@ class _userDashboardState extends State<PivotDashboard> {
       Bookable_iD = prefs.getInt('userbookingId') ?? 0;
       Retrivedcityvalue = prefs.getString('citykey') ?? "";
       RetrivedAdress = prefs.getString('addresskey') ?? "";
+      ApprovedMessagestr = prefs.getString('Approvedkey') ?? "";
+      DeclinedMessagestr = prefs.getString('Declinedkey') ?? "";
 
 
 
@@ -129,8 +133,86 @@ class _userDashboardState extends State<PivotDashboard> {
       throw Exception('Failed to load post');
     }
   }
+//Alert Dialog box
+  DeclinedshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update Decline!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
 
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+//Status Alert
+  UpdatedstatusshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update the status!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -348,6 +430,15 @@ class _userDashboardState extends State<PivotDashboard> {
                                                 InkWell(
                                                   // onTap: doSomething,
                                                   onTap: () async {
+                                                    print('Approvemsg....');
+                                                    print(ApprovedMessagestr);
+                                                    if(ApprovedMessagestr == 'successfully Approved'){
+                                                      print('Jumped.........');
+                                                      UpdatedstatusshowAlertDialog(context);
+                                                    }
+                                                    UpdatedstatusshowAlertDialog(context);
+
+
                                                     //
                                                     if (getbookingData[index] == 'Awaiting Approval'){
                                                       stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
@@ -369,6 +460,10 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         var getpicsData = [];
                                                         var picstrr = data1['data'];
                                                         print('successfully Approved....');
+                                                        ApprovedMessagestr = 'successfully Approved';
+                                                        print(ApprovedMessagestr);
+                                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                        prefs.setString('Approvedkey', ApprovedMessagestr);
                                                         final snackBar = SnackBar(
                                                           content: Text('Successfully Approved'),
                                                         );
@@ -445,11 +540,7 @@ class _userDashboardState extends State<PivotDashboard> {
 
                                                       print('checked out btn clicked.....');
                                                     }
-
-                                                    print('approved id....');
-                                                    print(getbookingData[index]);
-
-                                                    print("Approve Container was tapped....."); },
+                                                    },
                                                   child: SizedBox(
                                                     height: 35,
                                                     width: 160,
@@ -506,10 +597,57 @@ class _userDashboardState extends State<PivotDashboard> {
                                                   // onTap: doSomething,
                                                   onTap: () async {
                                                     print('clicked on declined btn...');
+                                                   // showAlertDialog(context);
+
+
+                                                    // if(DeclinedMessagestr == 'successfully Declined'){
+                                                    //   print('Jumped into declined.........');
+                                                    //   DeclinedshowAlertDialog(context);
+                                                    // }
+                                                    DeclinedshowAlertDialog(context);
+                                                    print('booking sts...');
+                                                    print(getbookingData[index]);
+
 
                                                     if (getbookingData[index] == 'Awaiting Approval'){
-                                                   stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    stsId = booking_idList[index].toString();
+                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsId = snapshot.data['data'][index]['id'].toString();
+                                                      stsId = booking_idList[index].toString();
+                                                      String ApproveStr = '/Declined';
+                                                      String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                                      print('decline url...');
+                                                      print(Apprvoedurl);
+                                                      var response = await http.get(
+                                                        Uri.parse(
+                                                            Apprvoedurl),
+                                                        headers: {
+                                                          // 'Authorization':
+                                                          // 'Bearer <--your-token-here-->',
+                                                          "Authorization": "Bearer $RetrivedBearertoekn",
+                                                        },
+                                                      );
+                                                      if (response.statusCode == 200) {
+                                                        final data1 = jsonDecode(response.body);
+                                                        var getpicsData = [];
+                                                        var picstrr = data1['data'];
+                                                        print('successfully Decline....');
+                                                        DeclinedMessagestr = 'successfully Declined';
+                                                        print(DeclinedMessagestr);
+                                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                        prefs.setString('Declinedkey', DeclinedMessagestr);
+                                                        final snackBar = SnackBar(
+                                                          content: Text('Successfully Approved'),
+                                                        );
+                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        return json.decode(response.body);
+                                                      } else {
+                                                        // If that call was not successful, throw an error.
+                                                        throw Exception('Failed to load post');
+                                                      }
+                                                    } else if (getbookingData[index] == 'Approve'){
+                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsId = snapshot.data['data'][index]['id'].toString();
+                                                      stsId = booking_idList[index].toString();
                                                       String ApproveStr = '/Declined';
                                                       String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
                                                       var response = await http.get(
@@ -525,37 +663,13 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         final data1 = jsonDecode(response.body);
                                                         var getpicsData = [];
                                                         var picstrr = data1['data'];
-                                                        print('successfully Declined....');
+                                                        print('successfully Declined unbook....');
+                                                        DeclinedMessagestr = 'successfully Declined';
+                                                        print(DeclinedMessagestr);
+                                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                        prefs.setString('Declinedkey', DeclinedMessagestr);
                                                         final snackBar = SnackBar(
-                                                          content: Text('Successfully Declined'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                        return json.decode(response.body);
-                                                      } else {
-                                                        // If that call was not successful, throw an error.
-                                                        throw Exception('Failed to load post');
-                                                      }
-                                                    } else if (getbookingData[index] == 'Approved'){
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                      stsId = booking_idList[index].toString();
-                                                      String ApproveStr = '/Decline';
-                                                      String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                      var response = await http.get(
-                                                        Uri.parse(
-                                                            Apprvoedurl),
-                                                        headers: {
-                                                          // 'Authorization':
-                                                          // 'Bearer <--your-token-here-->',
-                                                          "Authorization": "Bearer $RetrivedBearertoekn",
-                                                        },
-                                                      );
-                                                      if (response.statusCode == 200) {
-                                                        final data1 = jsonDecode(response.body);
-                                                        var getpicsData = [];
-                                                        var picstrr = data1['data'];
-                                                        print('successfully Declined....');
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Declined'),
+                                                          content: Text('Successfully Approved'),
                                                         );
                                                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                         return json.decode(response.body);
@@ -564,6 +678,75 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         throw Exception('Failed to load post');
                                                       }
                                                     }
+
+                                                   //
+                                                   //  if (getbookingData[index] == 'Awaiting Approval'){
+                                                   // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                   //  stsId = booking_idList[index].toString();
+                                                   //    String ApproveStr = '/Declined';
+                                                   //    String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                                   //    var response = await http.get(
+                                                   //      Uri.parse(
+                                                   //          Apprvoedurl),
+                                                   //      headers: {
+                                                   //        // 'Authorization':
+                                                   //        // 'Bearer <--your-token-here-->',
+                                                   //        "Authorization": "Bearer $RetrivedBearertoekn",
+                                                   //      },
+                                                   //    );
+                                                   //    if (response.statusCode == 200) {
+                                                   //      final data1 = jsonDecode(response.body);
+                                                   //      var getpicsData = [];
+                                                   //      var picstrr = data1['data'];
+                                                   //      print('successfully Declined....1');
+                                                   //      DeclinedMessagestr = 'successfully Declined';
+                                                   //      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                   //      prefs.setString('Declinedkey', DeclinedMessagestr);
+                                                   //      final snackBar = SnackBar(
+                                                   //        content: Text('Successfully Declined'),
+                                                   //      );
+                                                   //      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                   //
+                                                   //
+                                                   //      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                   //      return json.decode(response.body);
+                                                   //    } else {
+                                                   //      // If that call was not successful, throw an error.
+                                                   //      throw Exception('Failed to load post');
+                                                   //    }
+                                                   //  } else if (getbookingData[index] == 'Approved'){
+                                                   //    stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                   //    stsId = booking_idList[index].toString();
+                                                   //    String ApproveStr = '/Declined';
+                                                   //    String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
+                                                   //    var response = await http.get(
+                                                   //      Uri.parse(
+                                                   //          Apprvoedurl),
+                                                   //      headers: {
+                                                   //        // 'Authorization':
+                                                   //        // 'Bearer <--your-token-here-->',
+                                                   //        "Authorization": "Bearer $RetrivedBearertoekn",
+                                                   //      },
+                                                   //    );
+                                                   //    if (response.statusCode == 200) {
+                                                   //      final data1 = jsonDecode(response.body);
+                                                   //      var getpicsData = [];
+                                                   //      var picstrr = data1['data'];
+                                                   //      print('successfully Declined....');
+                                                   //      DeclinedMessagestr = 'successfully Declined';
+                                                   //      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                   //      prefs.setString('Declinedkey', DeclinedMessagestr);
+                                                   //      final snackBar = SnackBar(
+                                                   //        content: Text('Successfully Declined'),
+                                                   //      );
+                                                   //      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                   //
+                                                   //      return json.decode(response.body);
+                                                   //    } else {
+                                                   //      // If that call was not successful, throw an error.
+                                                   //      throw Exception('Failed to load post');
+                                                   //    }
+                                                    //}
 
                                                     print("Approve Container was tapped....."); },
                                                   child: SizedBox(
