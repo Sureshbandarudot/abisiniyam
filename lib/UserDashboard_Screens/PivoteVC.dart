@@ -434,9 +434,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                     print(ApprovedMessagestr);
                                                     if(ApprovedMessagestr == 'successfully Approved'){
                                                       print('Jumped.........');
-                                                      UpdatedstatusshowAlertDialog(context);
+                                                     // UpdatedstatusshowAlertDialog(context);
                                                     }
-                                                    UpdatedstatusshowAlertDialog(context);
+                                                   // UpdatedstatusshowAlertDialog(context);
 
 
                                                     //
@@ -604,7 +604,7 @@ class _userDashboardState extends State<PivotDashboard> {
                                                     //   print('Jumped into declined.........');
                                                     //   DeclinedshowAlertDialog(context);
                                                     // }
-                                                    DeclinedshowAlertDialog(context);
+                                                   // DeclinedshowAlertDialog(context);
                                                     print('booking sts...');
                                                     print(getbookingData[index]);
 

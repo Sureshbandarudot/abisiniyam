@@ -11,6 +11,7 @@ class Forgot extends StatefulWidget {
 }
 
 class _ForgotState extends State<Forgot> {
+  bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController otpController = TextEditingController();
@@ -211,6 +212,7 @@ class _ForgotState extends State<Forgot> {
                                             ),
                                             TextField (
                                               controller: otpController,
+                                              obscureText: true,
                                               decoration: InputDecoration(
                                                   border:OutlineInputBorder(),
                                                   labelText: 'otp',
@@ -222,6 +224,7 @@ class _ForgotState extends State<Forgot> {
                                               height: 10,
                                             ),
                                             TextField (
+                                              obscureText: true,
                                               controller: passwordController,
                                               decoration: InputDecoration(
                                                   border:OutlineInputBorder(),
@@ -233,6 +236,7 @@ class _ForgotState extends State<Forgot> {
                                               height: 10,
                                             ),
                                             TextField (
+                                              obscureText: true,
                                               controller: confirmpasswordController,
                                               decoration: InputDecoration(
                                                   border:OutlineInputBorder(),
@@ -255,6 +259,7 @@ class _ForgotState extends State<Forgot> {
                                                   textStyle: const TextStyle(fontSize: 20)),
                                             onPressed: () async {
 
+                                              setState(() => isLoading = true);
 
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
@@ -263,7 +268,8 @@ class _ForgotState extends State<Forgot> {
 
                                                 forgot(emailController.text.toString(),otpController.text.toString(), passwordController.text.toString(),confirmpasswordController.text.toString());
 
-
+                                            await Future.delayed(Duration(seconds: 2), () => () {});
+                                            setState(() => isLoading = false);
                                               },
                                               //child: const Text('Reset Password'),
                                               child: const Text('Reset Password',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
@@ -362,8 +368,8 @@ class _ForgotState extends State<Forgot> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.star),
-                                    Text("Bottom Text")
+                                    // Icon(Icons.star),
+                                    // Text("Bottom Text")
                                   ],
                                 ),
                               ),

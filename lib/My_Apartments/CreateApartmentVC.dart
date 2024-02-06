@@ -352,8 +352,6 @@ class _LoginState extends State<CreateApartment> {
                                       SizedBox(
                                         height: 15,
                                       ),
-
-
                                       ElevatedButton(
                                         style: ButtonStyle(
                                             backgroundColor: MaterialStateProperty.all(Colors.green)),
@@ -362,7 +360,6 @@ class _LoginState extends State<CreateApartment> {
                                           _showPicker(context: context);
                                         },
                                       ),
-
                                       SizedBox(
                                         height: 200.0,
                                         width: 300.0,
@@ -370,8 +367,6 @@ class _LoginState extends State<CreateApartment> {
                                             ? const Center(child: Text('Sorry nothing selected!!',style: TextStyle(color: Colors.red),))
                                             : Center(child: Image.file(galleryFile!)),
                                       ),
-
-
                                       Container(
                                         child:isLoading
                                             ? Center(child: CircularProgressIndicator())

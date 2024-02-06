@@ -12,6 +12,8 @@ import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
+
+import '../MyBookings/MybookingVC.dart';
 //import 'NewUserbooking.dart';
 class newuserDashboard extends StatefulWidget {
   const newuserDashboard({super.key});
@@ -204,15 +206,38 @@ class _userDashboardState extends State<newuserDashboard> {
         // ),
       appBar: AppBar(
         centerTitle: true,
-        leading: Padding(
-          // padding: const EdgeInsets.all(0.0),
-          padding: EdgeInsets.only(left: 15.0, top: 0.0),
-          child: Image.asset(
-            "images/logo.jpg",
-          ),),
+        leading: BackButton(
+          onPressed: () async{
+            print("back Pressed");
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('logoutkey', ('LogoutDashboard'));
+            prefs.setString('Property_type', ('Apartment'));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => tabbar()),
+            );
+    },
+
+        ),
+        // iconTheme: IconThemeData(
+        //     color: Colors.green,
+        // ),
         title: Text('ABISINIYA',textAlign: TextAlign.center,
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-        iconTheme: IconThemeData(color: Colors.green),),
+
+      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   leading: Padding(
+      //     // padding: const EdgeInsets.all(0.0),
+      //     padding: EdgeInsets.only(left: 15.0, top: 0.0),
+      //     child: Image.asset(
+      //       "images/logo.jpg",
+      //     ),),
+      //   title: Text('ABISINIYA',textAlign: TextAlign.center,
+      //       style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      //   iconTheme: IconThemeData(color: Colors.green),),
       endDrawer: Drawer(
         child: ListView(
 
@@ -239,11 +264,15 @@ class _userDashboardState extends State<newuserDashboard> {
               title: const Text('My Bookings',
                   style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
-              onTap: () {
+              onTap: () async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('logoutkey', ('LogoutDashboard'));
+                prefs.setString('Property_type', ('Apartment'));
+                prefs.setString('tokenkey',RetrivedBearertoekn );
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Login()),
+                      builder: (context) => MyBookingScreen()),
                 );
               },
             ),
@@ -293,8 +322,6 @@ class _userDashboardState extends State<newuserDashboard> {
                   MaterialPageRoute(
                       builder: (context) => MyApartmentScreen()),
                 );
-
-
               },
             ),
             ListTile(
@@ -348,16 +375,14 @@ class _userDashboardState extends State<newuserDashboard> {
               onTap: ()async{
 
 
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // prefs.setString('logoutkey', ('LogoutDashboard'));
+                // prefs.setString('Property_type', ('Apartment'));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => tabbar()),
                 );
-
-
               },
 
               // onTap: () {
@@ -845,7 +870,7 @@ class _userDashboardState extends State<newuserDashboard> {
                             // onTap: doSomething,
                             onTap: () async {
                               print('clicked on declined btn...');
-                              DeclinedshowAlertDialog(context);
+                             // DeclinedshowAlertDialog(context);
 
 
                               if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts

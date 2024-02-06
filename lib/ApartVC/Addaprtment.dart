@@ -251,6 +251,7 @@ class HomeState extends State<AddApartment> {
                           child: LayoutBuilder(
                             builder: (context, constraint) {
                               return SingleChildScrollView(
+
                                 child: Container(
                                   constraints:
                                   BoxConstraints(minHeight: constraint.maxHeight),
@@ -270,6 +271,7 @@ class HomeState extends State<AddApartment> {
                                                         height: 250,
 
                                                          child:ListView.separated(
+                                                             // scrollDirection:Axis.horizontal,
                                                            itemCount: (snapshot.data as List<Picture>).length,
                                                                           separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                                           itemBuilder: (BuildContext context, int index) {
@@ -283,10 +285,15 @@ class HomeState extends State<AddApartment> {
                                                                   children: [
                                                                     Container(
                                                                               height: 200,
-                                                                              decoration: BoxDecoration(
-                                                                                  image: DecorationImage(image: NetworkImage(abisiniyapic.imageUrl),
-                                                                                      fit: BoxFit.cover)
-                                                                              ),
+                                                                              // decoration: BoxDecoration(
+                                                                              //     image: DecorationImage(image: NetworkImage(abisiniyapic.imageUrl),
+                                                                              //         fit: BoxFit.cover)
+                                                                              // ),
+
+                                                                      decoration: BoxDecoration(
+                                                                          image: DecorationImage(image: NetworkImage(abisiniyapic.imageUrl),
+                                                                              fit: BoxFit.cover)
+                                                                      ),
                                                                             ),
                                                                   ],
                                                                 ),

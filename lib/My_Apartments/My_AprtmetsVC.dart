@@ -645,9 +645,9 @@ child: const Align(
                                                               child: Container(
                                                                 color: Colors.cyan,
                                                                 child: Container(
-                                                                  width: 60,
+                                                                  width: 55,
                                                                   color: Colors.transparent,
-                                                                  child: Text('View',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.white),),
+                                                                  child: Text('View',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
                                                                 ),                                                              ),
                                                               onTap: () async {
 
@@ -666,13 +666,13 @@ child: const Align(
                                                                 print("value of your text");},
                                                             ),
                                                             SizedBox(
-                                                              width: 20,
+                                                              width: 15,
                                                             ),
                                                             InkWell(
                                                               child: Container(
-                                                                width: 60,
+                                                                width: 55,
                                                                 color: Colors.green,
-                                                                child: Text('Edit',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.white),),
+                                                                child: Text('Edit',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
                                                               ),
                                                               onTap: () async{print("value of your text");
 
@@ -703,9 +703,9 @@ child: const Align(
                                                             ),
                                                             InkWell(
                                                               child: Container(
-                                                                width: 70,
+                                                                width: 65,
                                                                 color: Colors.red,
-                                                                child: Text('Delete',textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.white),),
+                                                                child: Text('Delete',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
                                                               ),
                                                               onTap: () async{
                                                                 print("value of your text");

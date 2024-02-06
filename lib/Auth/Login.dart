@@ -214,6 +214,7 @@ class _LoginState extends State<Login> {
                                       width: 300.0,
                                       height: 40.0,
                                       child: TextField(
+                                        obscureText: true,
                                         controller: passwordController,
                                           textAlign: TextAlign.left,
                                           autocorrect: false,
@@ -378,8 +379,8 @@ class _LoginState extends State<Login> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.star),
-                                    Text("Bottom Text")
+                                    // Icon(Icons.star),
+                                    // Text("Bottom Text")
                                   ],
                                 ),
                               ),

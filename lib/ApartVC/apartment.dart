@@ -283,8 +283,44 @@ void initState() {
                                   color: Colors.white,
 
                                   child: TextButton(
-                                    style: TextButton.styleFrom(backgroundColor:Colors.green,fixedSize: Size.fromHeight(100)),
-                                    onPressed: () {},
+                                    style: TextButton.styleFrom(backgroundColor:Colors.green),
+                                    onPressed: () async {
+
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      prefs.setString('citykey', snapshot.data['data'][index]['city']);
+                                      prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
+                                      prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                      prefs.setString('bathroomkey', (snapshot.data['data'][index]['bathroom'].toString()));
+                                      prefs.setString('bedroomkey', (snapshot.data['data'][index]['bedroom'].toString()));
+                                      prefs.setString('pricekey', (snapshot.data['data'][index]['price'].toString()));
+                                      prefs.setString('Property_type', ('Apartment'));
+                                      prefs.setString('emailkey', (RetrivedEmail));
+                                      prefs.setString('passwordkey', (RetrivedPwd));
+                                      print('email....');
+                                      print(RetrivedEmail);
+                                      print('pwd...');
+                                      print(RetrivedPwd);
+                                      print('logout......');
+                                      print(Logoutstr);
+
+                                      if(Logoutstr == 'LogoutDashboard') {
+                                        print('fail dash...');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => AddApartment()
+                                          ),
+                                        );
+                                      } else{
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UserBooking()
+                                          ),
+                                        );
+                                        // login(RetrivedEmail, RetrivedPwd);
+                                      }
+                                    },
                                     child: const Text('BookNow'),
                                   ),
                                 )
@@ -359,17 +395,29 @@ void initState() {
       print('logout......');
       print(Logoutstr);
 
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) => UserBooking()
+      //   ),
+      // );
+
       if(Logoutstr == 'LogoutDashboard') {
       print('fail dash...');
       Navigator.push(
       context,
       MaterialPageRoute(
-      builder: (context) => UserBooking()
+      builder: (context) => AddApartment()
       ),
       );
       } else{
-        print('succ dash....');
-        login(RetrivedEmail, RetrivedPwd);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => UserBooking()
+          ),
+        );
+        // login(RetrivedEmail, RetrivedPwd);
       }
 
 

@@ -263,6 +263,7 @@ class HomeState extends State<UserBooking> {
                           child: LayoutBuilder(
                             builder: (context, constraint) {
                               return SingleChildScrollView(
+                                //scrollDirection: Axis.horizontal,
                                 child: Container(
                                   constraints:
                                   BoxConstraints(minHeight: constraint.maxHeight),
@@ -282,6 +283,8 @@ class HomeState extends State<UserBooking> {
                                                         height: 250,
 
                                                         child:ListView.separated(
+                                                          //scrollDirection:Axis.horizontal,
+
                                                           itemCount: (snapshot.data as List<Picture>).length,
                                                           separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                           itemBuilder: (BuildContext context, int index) {

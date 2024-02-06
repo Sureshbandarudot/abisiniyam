@@ -24,6 +24,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  bool isLoading = false;
 
   String _email = '';
 
@@ -283,6 +284,7 @@ class _RegisterState extends State<Register> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
+                                          obscureText: true,
                                           controller: passwordController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
@@ -304,6 +306,7 @@ class _RegisterState extends State<Register> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
+                                          obscureText: true,
                                           controller: confirmpwdController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
@@ -328,6 +331,7 @@ class _RegisterState extends State<Register> {
 
                                         onPressed: () async {
 
+                                          setState(() => isLoading = true);
 
 
     //RegisterAPI(nameController.text.toString(),surnameController.text.toString(),phoneController.text,toString(),emailController.text.toString(), passwordController.text.toString(), pwdController.text.toString());
@@ -342,6 +346,8 @@ class _RegisterState extends State<Register> {
 
                                           RegisterAPI(nameController.text.toString(), surnameController.text.toString(), emailController.text.toString(), passwordController.text.toString(),confirmpwdController.text.toString(),phoneController.text.toString());
 
+                                          await Future.delayed(Duration(seconds: 2), () => () {});
+                                          setState(() => isLoading = false);
                                         },
                                         //child: const Text('Register'),
                                         child: const Text('Register',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
@@ -438,8 +444,8 @@ class _RegisterState extends State<Register> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.star),
-                                    Text("Bottom Text")
+                                    // Icon(Icons.star),
+                                    // Text("Bottom Text")
                                   ],
                                 ),
                               ),

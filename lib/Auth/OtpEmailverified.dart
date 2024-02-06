@@ -14,6 +14,7 @@ class OTPVerified extends StatefulWidget {
 }
 
 class _OTPVerifiedState extends State<OTPVerified> {
+  bool isLoading = false;
   String? emaildata;
   final globalKey = GlobalKey<ScaffoldState>();
 
@@ -221,6 +222,7 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                               height: 10,
                                             ),
                                             TextField (
+                                              obscureText: true,
                                               controller: otpController,
                                               decoration: InputDecoration(
                                                   border:OutlineInputBorder(),
@@ -244,14 +246,17 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                              // onPressed: () {
                                                 onPressed: () async {
 
+                                                  setState(() => isLoading = true);
                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
                                                 print(emailController.text);
 
                                                 OTPVerified(emailController.text.toString(), otpController.text.toString());
+                                                  await Future.delayed(Duration(seconds: 2), () => () {});
+                                                  setState(() => isLoading = false);
                                                 },
                                               //child: const Text('Verified'),
-                                              child: const Text('Verified',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                                              child: const Text('Verify',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
                                             ),
                                           ],
                                         ),
@@ -269,8 +274,8 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.star),
-                                    Text("Bottom Text")
+                                    // Icon(Icons.star),
+                                    // Text("Bottom Text")
                                   ],
                                 ),
                               ),

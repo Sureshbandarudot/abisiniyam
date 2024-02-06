@@ -179,24 +179,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.green,
               ),
               //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
-              title: const Text('Logout',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+              // title: const Text('Logout',
+              //     style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
               //onTap: () async {
-    onTap: ()async{
-
-
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-    prefs.setString('Property_type', ('Apartment'));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => tabbar()),
-                );
-
-
-    },
+    // onTap: ()async{
+    //
+    //
+    //             SharedPreferences prefs = await SharedPreferences.getInstance();
+    //             prefs.setString('logoutkey', ('LogoutDashboard'));
+    // prefs.setString('Property_type', ('Apartment'));
+    //             Navigator.push(
+    //               context,
+    //               MaterialPageRoute(
+    //                   builder: (context) => tabbar()),
+    //             );
+    //
+    //
+    // },
 
               // onTap: () {
               //   Navigator.pop(context);

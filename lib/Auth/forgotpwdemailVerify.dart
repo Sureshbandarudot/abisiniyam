@@ -12,6 +12,7 @@ class ForgotpwdOTPVerified extends StatefulWidget {
 }
 
 class _ForgotpwdOTPVerifiedState extends State<ForgotpwdOTPVerified> {
+  bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
   TextEditingController emailController = TextEditingController();
 
@@ -170,7 +171,7 @@ class _ForgotpwdOTPVerifiedState extends State<ForgotpwdOTPVerified> {
                                                   textStyle: const TextStyle(fontSize: 20)),
                                              // onPressed: () {
                                                 onPressed: () async {
-
+                                                  setState(() => isLoading = true);
 
                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
@@ -178,9 +179,11 @@ class _ForgotpwdOTPVerifiedState extends State<ForgotpwdOTPVerified> {
                                                 print(emailController.text);
 
                                                 OTPVerified(emailController.text.toString());
+                                                  await Future.delayed(Duration(seconds: 2), () => () {});
+                                                  setState(() => isLoading = false);
                                               },
                                               //child: const Text('Verified'),
-                                              child: const Text('Verified',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                                              child: const Text('Verify',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
                                             ),
                                           ],
                                         ),
@@ -198,8 +201,8 @@ class _ForgotpwdOTPVerifiedState extends State<ForgotpwdOTPVerified> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.star),
-                                    Text("Bottom Text")
+                                    // Icon(Icons.star),
+                                    // Text("Bottom Text")
                                   ],
                                 ),
                               ),
